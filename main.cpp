@@ -4,6 +4,7 @@
 #include <chrono>
 
 
+
 //static uint64_t write_latency = 1000000000;
 //static uint64_t write_latency = 10;
 static uint32_t write_latency = 100;
@@ -55,4 +56,29 @@ int main(){
     std::cout << duration << std::endl;
 
     std::cout << "hello, world" << std::endl;
+
+    uint64_t cpu_freq_mhz = 2300;
+    uint64_t inject_count = 10;
+    uint64_t inject_latencys[10] = {50, 100, 150, 200, 250, 300, 350, 400, 450, 500};
+    uint64_t inject_cycles[10];
+    for (int i = 0 ;i < inject_count; i++){
+        inject_cycles[i] = inject_latencys[i]*cpu_freq_mhz/1000;
+    }
+    for (int i = 0; i < inject_count; i++){
+        // inject_cycles[i]
+        int repeat_count = 1000;
+        uint64_t cycles_sum = 0;
+        for (int j = 0; j < repeat_count; j++){
+            uint64_t start_c, end_c;
+            uint64_t temp_c;
+
+            start_c = _rdtsc();
+            temp_c = _rdtsc() + inject_cycles[i];
+            while((end_c = _rdtsc()) < temp_c) cpu_pause();
+
+            cycles_sum += end_c - start_c;
+        }
+        std::cout << inject_latencys[i] << "," << inject_cycles[i] << "," << cycles_sum/repeat_count << std::endl;
+    }
+
 }
