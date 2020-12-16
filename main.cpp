@@ -3,7 +3,7 @@
 
 
 static uint64_t write_latency = 1000000000;
-static uint64_t CPU_FREQ_MHZ = 2000;
+static uint64_t CPU_FREQ_MHZ = 2300;
 static inline void cpu_pause()
 {
     __asm__ volatile ("pause" ::: "memory");
