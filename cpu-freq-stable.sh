@@ -38,10 +38,10 @@ done
 ###############################
 if [[ $1 == "enable" ]]; then
     # disable some c state
-    cpupower -c 0  idle-set -D1
+    cpupower -c all  idle-set -D1
 fi
 
 if [[ $1 == "disable" ]]; then
     # enable some c state
-    cpupower -c 0  idle-set -E
+    cpupower -c all  idle-set -E
 fi
